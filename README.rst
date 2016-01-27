@@ -1,0 +1,7 @@
+How to write good test case
+===========================
+
+This project general guidelines for writing good test cases using
+`Robot Framework <http://robotframework.org>`_.
+
+The how-to itself is in `<HowToWriteGoodTestCases.rst>`_ file.
