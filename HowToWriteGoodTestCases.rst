@@ -1,11 +1,8 @@
 .. default-role:: code
 
-============================
-How to write good test cases
-============================
-
-General guidelines for writing good test cases using `Robot Framework
-<http://robotframework.org>`_.
+==================================================
+How to write good test cases using Robot Framework
+==================================================
 
 .. contents:: Table of contents:
    :local:
@@ -15,17 +12,24 @@ General guidelines for writing good test cases using `Robot Framework
 Introduction
 ============
 
-- These are high-level guidelines for writing test cases. How to actually
-  interact with the system under test is out of the scope of this document.
+- These are high-level guidelines for writing good test cases using Robot
+  Framework.
+
+  - How to actually interact with the system under test is out of
+    the scope of this document.
+
 - Most important guideline is keeping test cases as easy to understand as
   possible for people familiar with the domain.
+
+  - This typically also eases maintenance.
+
 - For more information about this subject, you may want to take a look at
   these great resources:
 
-  - `Dos and Don'ts`__ slides
-  - `Writing Maintainable Automated Acceptance Tests`__ article by Dale H. Emery
+  - `Robot Framework Dos and Don'ts`__ slides that are based on this how-to.
+  - `Writing Maintainable Automated Acceptance Tests`__ article by Dale Emery.
   - `How to Structure a Scalable And Maintainable Acceptance Test Suite`__
-    blog post by Andreas Ebbert-Karroum
+    blog post by Andreas Ebbert-Karroum.
 
 __ http://www.slideshare.net/pekkaklarck/robot-framework-dos-and-donts
 __ http://cwd.dhemery.com/2009/11/wmaat
@@ -39,29 +43,38 @@ Test suite names
 ----------------
 
 - Suite names should be as describing as possible.
-- Names can be relatively long, but over 40 characters starts to be too much.
-- Remember that suite names are created automatically from file/directory names:
 
-  - Extensions are stripped
-  - Underscores are converted to spaces
-  - If name is all lower case, words are capitalized
-  - Examples:
+- Names are created automatically from file or directory names:
 
-    - `login_tests.robot` -> `Login Tests`
-    - `IP_v4_and_v6` -> `IP v4 and v6`
+  - Extensions are stripped.
+  - Underscores are converted to spaces.
+  - If name is all lower case, words are capitalized.
+
+- Names can be relatively long, but overly long names are not convenient on
+  the file system.
+
+- The name of the top level suite can be overridden from the command line
+  using the `--name` option if needed.
+
+Examples:
+
+- `login_tests.robot` -> `Login Tests`
+- `IP_v4_and_v6` -> `IP v4 and v6`
 
 
 Test case names
 ---------------
 
 - Test names should be describing similarly as suite names.
+
 - If a suite contains many similar tests, and the suite itself is well named,
   test names can be shorter.
+
 - Name is exactly what you you specify in the test case file without any
   conversion.
 
-For example, if we have tests related to invalid login in file
-`invalid_login_should_fail.robot`, these would be OK test case names:
+For example, if we have tests related to invalid login in a file
+`invalid_login.robot`, these would be OK test case names:
 
 .. code:: robotframework
 
@@ -90,13 +103,19 @@ Keyword names
 -------------
 
 - Also keyword names should be describing and clear.
+
 - Should explain what the keyword does, not how it does it.
+
 - Very different abstraction levels (e.g. `Input Text` or `Administrator
   logs into system`).
-- There is no clear guideline should a keyword be title cased (e.g. `My Example
-  Keyword`) or should only the first letter is capitalized (e.g. `My example
-  keyword`). The former is often used when the keyword name is short, but
-  the latter typically works better with keywords that are like sentences.
+
+- There is no clear guideline should a keyword be fully title cased or should
+  only the first letter is capitalized.
+
+  - Title casing often used when the keyword name is short (e.g. `Input Text`).
+  - Capitalizing just the first letter typically works better with keywords
+    that are like sentences (e.g. `Administrator logs into system`). These
+    keywords are often also higher level.
 
 Good:
 
@@ -116,23 +135,25 @@ Bad:
 Naming setup and teardown
 -------------------------
 
-- Try to use name that describes what is done
+- Try to use name that describes what is done.
 
   - Possibly use an existing keyword.
 
-- More abstract names acceptable if a setup/teardown contain unrelated steps.
+- More abstract names acceptable if a setup or teardown contain unrelated steps.
 
   - Listing steps in name is duplication and a maintenance problem
-    (e.g. `Login to system, add user, activate alarms and check balance`)
+    (e.g. `Login to system, add user, activate alarms and check balance`).
 
-  - Often better to use something generic (e.g. `Initialize system`)
+  - Often better to use something generic (e.g. `Initialize system`).
 
-- BuiltIn keyword `Run Keywords`__ can work well if you have keywords for all
-  lower level steps ready.
+- BuiltIn keyword `Run Keywords`__ can work well if keywords implementing lower
+  level steps already exist.
 
-  - Not reusable so best used when certain setup/teardown scenario is needed only once.
+  - Not reusable so best used when certain a setup or teardown scenario is
+    needed only once.
 
-- Everyone working with these tests should always understand what a setup/teardown does.
+- Everyone working with these tests should always understand what a setup or
+  teardown does.
 
 Good:
 
@@ -169,11 +190,13 @@ Test suite documentation
 ------------------------
 
 - Often a good idea to add overall documentation to test case files.
+
 - Should contain background information, why tests are created, notes about
   execution environment, etc.
+
 - Do not just repeat test suite name.
 
-  - Better not to have documentation all if it is not really needed.
+  - Better to have no documentation if it is not really needed.
 
 - Do not include too much details about test cases.
 
@@ -181,8 +204,12 @@ Test suite documentation
   - Duplicate information is waste and maintenance problem.
 
 - Documentation can contain links to more information.
+
 - Consider using test suite metadata if you need to document information
-  represented as name-value pairs (e.g. `Version: 1.0` or `OS: Linux`.)
+  represented as name-value pairs (e.g. `Version: 1.0` or `OS: Linux`).
+
+- Documentation and metadata of the top level suite can be set from the
+  command line using `--doc` and `--metadata` options, respectively.
 
 Good:
 
@@ -224,13 +251,12 @@ Good:
 
   *** Test Cases ***
   Valid Login
-    [Tags]  Iteration-3  Smoke
-    Open Login Page
-    Input Username    ${VALID USERNAME}
-    Input Password    ${VALID PASSWORD}
-    Submit Credentials
-    Welcome Page Should Be Open
-    [Teardown]   Close Browser
+      [Tags]    Iteration-3    Smoke
+      Open Login Page
+      Input Username    ${VALID USERNAME}
+      Input Password    ${VALID PASSWORD}
+      Submit Credentials
+      Welcome Page Should Be Open
 
 Bad:
 
@@ -238,22 +264,22 @@ Bad:
 
   *** Test Cases ***
   Valid Login
-    [Documentation]    Opens a browser to login url, inputs username
-    ...                and password and checks the welcome page is open.
-    ...                This is a smoke test. Created in iteration 3.
-    Open Browser   ${URL}  ${BROWSER}
-    Input Text     field1  ${UN11}
-    Input Text     field2  ${PW11}
-    Click Button   button_12
-    Title Should Be  Welcome Page
-    [Teardown]     Close Browser
+      [Documentation]    Opens a browser to login url, inputs valid username
+      ...                and password and checks that the welcome page is open.
+      ...                This is a smoke test. Created in iteration 3.
+      Open Browser    ${URL}    ${BROWSER}
+      Input Text    field1    ${UN11}
+      Input Text    field2    ${PW11}
+      Click Button    button_12
+      Title Should Be    Welcome Page
 
 
 User keyword documentation
 --------------------------
 
-- Not needed if keyword is relatively simple. Good keyword and argument names
-  and clear structure should be enough.
+- Not needed if keyword is relatively simple.
+
+  - Good keyword and argument names and clear structure should be enough.
 
 - Important usage is documenting arguments and return values.
 
@@ -271,7 +297,7 @@ Test suite structure
 
   - Common setup and/or teardown is often a good indicator.
 
-- Should not have too many tests (max 10) in one suite unless they are
+- Should not have too many tests (max 10) in one file unless they are
   `data-driven tests`_.
 
 - Tests should be independent. Initialization using setup/teardown.
@@ -280,7 +306,7 @@ Test suite structure
 
   - For example, it can take too much time to initialize all tests separately.
   - Never have long chains of dependent tests.
-  - Consider verifying the status of the previous test using
+  - Consider verifying the status of the previous test using the built-in
     `${PREV TEST STATUS}` variable.
 
 
@@ -291,27 +317,27 @@ Test case structure
 
 - One test case should be testing one thing.
 
-  - *Things* can be small (part of single feature) or large (end-to-end).
+  - *Things* can be small (part of a single feature) or large (end-to-end).
 
 - Select suitable abstraction level.
 
   - Use abstraction level consistently (single level of abstraction principle).
-  - Only include information that is relevant for the test case.
+  - Do not include unnecessary details on the test case level.
 
 - Two kinds of test cases:
 
-  - Workflow tests
-  - Data-driven tests
+  - `Workflow tests`_
+  - `Data-driven tests`_
 
 
 Workflow tests
 --------------
 
-- Generally has these phases:
+- Generally have these phases:
 
-  - Preconditions (optional, often in setup)
+  - Precondition (optional, often in setup)
   - Action (do something to the system)
-  - Verification (must have one!)
+  - Verification (validate results, mandatory)
   - Cleanup (optional, always in teardown to make sure it is executed)
 
 - Keywords describe what a test does.
@@ -326,20 +352,20 @@ Workflow tests
   - End-to-end tests can be on very high level.
   - One test should use only one abstraction level
 
-- Different styles
+- Different styles:
 
-  - More technical tests for lower level details and integration tests
-  - "Executable specifications" act as requirements
-  - Use domain language
-  - Everyone (including customer/product owner) should always understand
+  - More technical tests for lower level details and integration tests.
+  - "Executable specifications" act as requirements.
+  - Use domain language.
+  - Everyone (including customer and/or product owner) should always understand.
 
-- No complex logic on test case level
+- No complex logic on the test case level.
 
-  - No for loops or if/else constructs
-  - Use variable assignments with care
+  - No for loops or if/else constructs.
+  - Use variable assignments with care.
   - Test cases should not look like scripts!
 
-- Max 10 steps, preferably less
+- Max 10 steps, preferably less.
 
 Example using "normal" keyword-driven style:
 
@@ -363,17 +389,25 @@ Example using higher level "gherkin" style:
       When user "demo" logs in with password "mode"
       Then welcome page should be open
 
+See the `web demo project <https://bitbucket.org/robotframework/webdemo/wiki/Home>`_
+for executable versions of the above examples.
+
 Data-driven tests
 -----------------
 
-- One high-level keyword per test
+- One high-level keyword per test.
 
-  - Different arguments create different tests
-  - The keyword often contains similar workflow as workflow tests
-  - Unless the keyword is needed elsewhere, it is a good idea to have it in
-    the same file as tests using it.
+  - Different arguments create different tests.
+  - One test can run the same keyword multiple times to validate multiple
+    related variations
 
-- Recommended to use *Test Template* functionality.
+- If the keyword is implemented as a user keyword, it typically contains
+  a similar workflow as `workflow tests`_.
+
+  - Unless needed elsewhere, it is a good idea to create it in the same file
+    as tests using it.
+
+- Recommended to use the *test template* functionality.
 
   - No need to repeat the keyword multiple times.
   - Easier to test multiple variations in one test.
@@ -406,60 +440,64 @@ Example:
       Submit Credentials
       Error Page Should Be Open
 
+The `web demo project`_ contains an executable version of this example too.
+
 
 User keywords
--------------
+=============
 
-- Should be easy to understand
+- Should be easy to understand.
 
-  - Same rules as with workflow tests
+  - Same rules as with workflow tests.
 
-- Different abstraction levels
+- Different abstraction levels.
 
-- Can contain some programming logic (for loops, if/else)
+- Can contain some programming logic (for loops, if/else).
 
-  - Especially on lower level keywords
-  - Complex logic in libraries rather than in user keywords
+  - Especially on lower level keywords.
+  - Complex logic in libraries rather than in user keywords.
 
 
 Variables
 =========
 
-- Encapsulate long and/or complicated values
-- Pass information from command line
-- Pass information between keywords
+- Encapsulate long and/or complicated values.
+
+- Pass information from them command line using the `--variable` option.
+
+- Pass information between keywords.
 
 
 Variable naming
 ---------------
 
-- Clear but not too long names
+- Clear but not too long names.
 
-- Can use comments in variable table to document them more
+- Can use comments in variable table to document them more.
 
-- Use case consistently
+- Use case consistently:
 
-  - Lower case with local variables only available inside a certain scope
-  - Upper case with others (global, suite or test level)
-  - Both space and underscore can be used as word separator
+  - Lower case with local variables only available inside a certain scope.
+  - Upper case with others (global, suite or test level).
+  - Both space and underscore can be used as a word separator.
 
 - Recommended to list also variables that are set dynamically in the variable
-  table
+  table.
 
-  - Set typically using `Set Suite Variable`__ keyword
-  - The initial value should explain where/how the real value is set
+  - Set typically using BuiltIn keyword `Set Suite Variable`__.
+  - The initial value should explain where/how the real value is set.
 
 Example:
 
 .. code:: robotframework
 
   *** Settings ***
-  Suite Setup      Set Active User
+  Suite Setup       Set Active User
 
   *** Variables ***
   # Default system address. Override when tested agains other instances.
-  ${SERVER URL}        http://sre-12.example.com/
-  ${USER}              Actual value set dynamically at suite setup
+  ${SERVER URL}     http://sre-12.example.com/
+  ${USER}           Actual value set dynamically at suite setup
 
   *** Keywords ***
   Set Active User
@@ -473,17 +511,17 @@ Passing and returning values
 ----------------------------
 
 - Common approach is to return values from keywords, assign them to variables
-  and then pass them as arguments to other keywords
+  and then pass them as arguments to other keywords.
 
-  - Clear and easy to follow approach
-  - Looks like programming and thus not so good on test case level
+  - Clear and easy to follow approach.
+  - Allows creating independent keywords and facilitates re-use.
+  - Looks like programming and thus not so good on the test case level.
 
-- Alternative approach is storing information in a library or using `Set Test
-  Variable`__ keyword
+- Alternative approach is storing information in a library or using the BuiltIn
+  `Set Test Variable`__ keyword.
 
-  - No need to have any programming style on test case level
-  - Can be more complex to follow and make reusing keywords harder
-  - Avoid below test case level
+  - Avoid programming style on the test case level.
+  - Can be more complex to follow and make reusing keywords harder.
 
 __ http://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Set%20Test%20Variable
 
@@ -505,7 +543,7 @@ Good:
   Withdraw Should Have Succeeded
       Should Be Equal    ${STATUS}   SUCCESS
 
-OK:
+Not so good:
 
 .. code:: robotframework
 
@@ -528,23 +566,25 @@ OK:
 Avoid sleeping
 ==============
 
-- Sleeping is very fragile
+- Sleeping is a very fragile way to synchronize tests.
 
-- Safety margins cause too long sleeps on average
+- Safety margins cause too long sleeps on average.
 
-- Instead of sleep, use keyword that polls has certain action occurred
+- Instead of sleeps, use keyword that polls has a certain action occurred.
 
-  - Should have a maximum time to wait
-  - Keyword names often starts with `Wait ...`
-  - Possible to wrap other keywords inside `Wait Until Keyword Succeeds`__
+  - Keyword names often starts with `Wait ...`.
+  - Should have a maximum time to wait.
+  - Possible to wrap other keywords inside the BuiltIn keyword
+    `Wait Until Keyword Succeeds`__.
 
-- Sometimes sleeping is easiest solution
+- Sometimes sleeping is the easiest solution.
 
-  - Always use with care
-  - Never use in user keywords that are used often by tests or other keywords
+  - Always use with care.
+  - Never use in user keywords that are used often by tests or other keywords.
 
-- Can be useful in debugging to stop execution, but `Dialogs library`__ often
-  works better for that purpose
+- Can be useful in debugging to stop execution.
+
+  - `Dialogs library`__ often works better.
 
 __ http://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Wait%20Until%20Keyword%20Succeeds
 __ http://robotframework.org/robotframework/latest/libraries/Dialogs.html
