@@ -102,7 +102,7 @@ These names would be somewhat long:
 Keyword names
 -------------
 
-- Also keyword names should be describing and clear.
+- Keyword names should be descriptive and clear.
 
 - Should explain what the keyword does, not how it does it.
 
@@ -149,7 +149,7 @@ Naming setup and teardown
 - BuiltIn keyword `Run Keywords`__ can work well if keywords implementing lower
   level steps already exist.
 
-  - Not reusable so best used when certain a setup or teardown scenario is
+  - Not reusable so best used when the setup or teardown scenario is
     needed only once.
 
 - Everyone working with these tests should always understand what a setup or
