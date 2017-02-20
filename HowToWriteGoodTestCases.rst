@@ -42,7 +42,7 @@ Naming
 Test suite names
 ----------------
 
-- Suite names should be as describing as possible.
+- Suite names should be as descriptive as possible.
 
 - Names are created automatically from file or directory names:
 
@@ -50,7 +50,7 @@ Test suite names
   - Underscores are converted to spaces.
   - If name is all lower case, words are capitalized.
 
-- Names can be relatively long, but overly long names are not convenient on
+- Names can be relatively long, but overly long names are not convenient for
   the file system.
 
 - The name of the top level suite can be overridden from the command line
@@ -65,12 +65,12 @@ Examples:
 Test case names
 ---------------
 
-- Test names should be describing similarly as suite names.
+- Test names should be descriptive like the suite names.
 
-- If a suite contains many similar tests, and the suite itself is well named,
+- If a suite contains many similar tests and is well named,
   test names can be shorter.
 
-- Name is exactly what you you specify in the test case file without any
+- Name is exactly the same as you specified in the test case file without any
   conversion.
 
 For example, if we have tests related to invalid login in a file
@@ -104,18 +104,18 @@ Keyword names
 
 - Keyword names should be descriptive and clear.
 
-- Should explain what the keyword does, not how it does it.
+- Should explain what the keyword does, not how it does its task(s).
 
 - Very different abstraction levels (e.g. `Input Text` or `Administrator
   logs into system`).
 
-- There is no clear guideline should a keyword be fully title cased or should
-  only the first letter is capitalized.
+- There is no clear guideline on whether a keyword should be fully title cased or have
+  only the first letter be capitalized.
 
-  - Title casing often used when the keyword name is short (e.g. `Input Text`).
+  - Title casing is often used when the keyword name is short (e.g. `Input Text`).
   - Capitalizing just the first letter typically works better with keywords
     that are like sentences (e.g. `Administrator logs into system`). These
-    keywords are often also higher level.
+    type of keywords are often higher level.
 
 Good:
 
@@ -139,7 +139,7 @@ Naming setup and teardown
 
   - Possibly use an existing keyword.
 
-- More abstract names acceptable if a setup or teardown contain unrelated steps.
+- More abstract names are acceptable if a setup or teardown contains unrelated steps.
 
   - Listing steps in name is duplication and a maintenance problem
     (e.g. `Login to system, add user, activate alarms and check balance`).
@@ -233,9 +233,9 @@ Bad (especially if suite is named well like `account_withdrawal.robot`):
 Test case documentation
 -----------------------
 
-- Test normally do not need documentation.
+- Test normally does not need documentation.
 
-  - Name and possible documentation of the parent suite and tests own name
+  - Name and possible documentation of the parent suite and test's own name
     should give enough background information.
   - Test case structure should be clear enough without documentation or other
     comments.
@@ -279,7 +279,7 @@ User keyword documentation
 
 - Not needed if keyword is relatively simple.
 
-  - Good keyword and argument names and clear structure should be enough.
+  - Good keyword, argument names and clear structure should be enough.
 
 - Important usage is documenting arguments and return values.
 
@@ -293,7 +293,7 @@ __ https://github.com/robotframework/RIDE
 Test suite structure
 ====================
 
-- Tests in a suite should be related to each others.
+- Tests in a suite should be related to each other.
 
   - Common setup and/or teardown is often a good indicator.
 
@@ -481,7 +481,7 @@ Variable naming
   - Upper case with others (global, suite or test level).
   - Both space and underscore can be used as a word separator.
 
-- Recommended to list also variables that are set dynamically in the variable
+- Recommended to also list variables that are set dynamically in the variable
   table.
 
   - Set typically using BuiltIn keyword `Set Suite Variable`__.
