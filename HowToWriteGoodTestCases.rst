@@ -389,7 +389,7 @@ Example using higher level "gherkin" style:
       When user "demo" logs in with password "mode"
       Then welcome page should be open
 
-See the `web demo project <https://bitbucket.org/robotframework/webdemo/wiki/Home>`_
+See the `web demo project <https://bitbucket.org/robotframework/webdemo>`_
 for executable versions of the above examples.
 
 Data-driven tests
