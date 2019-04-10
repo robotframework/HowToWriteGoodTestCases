@@ -185,6 +185,22 @@ __ http://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Run%20
 
 Documentation
 =============
+- Settings
+
+Is used to import available keyword libraries or resources (resources are plain text files like test suites, but without test cases) and define possible setup and teardown keywords.
+
+- Variables
+
+Is used to define available robot variables with their default values, or override variables defined in imported resources.
+
+- Test Cases
+
+Is used to define runnable tests cases, which are made of test clauses calling test keywords.
+
+- Keywords
+
+Is used to define new user keywords, which may re-use existing keywords from imported libraries or resource files.
+
 
 Test suite documentation
 ------------------------
