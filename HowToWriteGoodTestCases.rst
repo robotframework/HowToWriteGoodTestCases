@@ -477,8 +477,10 @@ Variable naming
 
 - Use case consistently:
 
-  - Lower case with local variables only available inside a certain scope.
-  - Upper case with others (global, suite or test level).
+  - All variables are globally defined. To indicate a scoped variable, use
+    lower case.
+  - Upper case with variables that are shared between test cases or keywords
+    (global, suite or test level).
   - Both space and underscore can be used as a word separator.
 
 - Recommended to also list variables that are set dynamically in the variable
