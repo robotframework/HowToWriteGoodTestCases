@@ -1,7 +1,8 @@
-How to write good test case
-===========================
+Как  писать автотесты  используя Robot Framework
+=====================================================
 
-This project documents general guidelines for writing good test cases using
+
+Этот проект является авторизованым переводом оригинального руководства `How to write good test cases using Robot Framework <https://github.com/robotframework/HowToWriteGoodTestCases/blob/master/HowToWriteGoodTestCases.rst>`_ и описывает общие правила написания хороших автоматизированных тестов с использованием
 `Robot Framework <http://robotframework.org>`_.
 
-The how-to itself is in `<HowToWriteGoodTestCases.rst>`_ file.
+Собственно советы по написанию находятся в файле `<HowToWriteGoodTestCases.rst>`_.
