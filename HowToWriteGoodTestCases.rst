@@ -1,62 +1,56 @@
 .. default-role:: code
 
 ==================================================
-How to write good test cases using Robot Framework
+Как писать автотесты используя Robot Framework
 ==================================================
 
-.. contents:: Table of contents:
+.. contents:: Содержание:
    :local:
    :depth: 2
 
 
-Introduction
+Введение
 ============
 
-- These are high-level guidelines for writing good test cases using Robot
+- Это руководстов дает обобщенные советы по написания наборо тестов с использованием Robot
   Framework.
 
-  - How to actually interact with the system under test is out of
-    the scope of this document.
+  - Детальное описание взаимодействия с тестируемыми системами выходит за рамки настоящего руководства.
 
-- Most important guideline is keeping test cases as easy to understand as
-  possible for people familiar with the domain.
+- Важнейшим принципом написания тестов является его максимальная понятность для людей знакомых с предметной областью.
 
-  - This typically also eases maintenance.
+  - Обычно такие тесты еще и легко поддерживать.
 
-- For more information about this subject, you may want to take a look at
-  these great resources:
+- За дополнительными сведениями по этой теме вы можете обратится к следующим замечательным источникам:
 
-  - `Robot Framework Dos and Don'ts`__ slides that are based on this how-to.
-  - `Writing Maintainable Automated Acceptance Tests`__ article by Dale Emery.
-  - `How to Structure a Scalable And Maintainable Acceptance Test Suite`__
-    blog post by Andreas Ebbert-Karroum.
+  - `Robot Framework Dos and Don'ts`__ презентация в основе которой это руководство.
+  - Статья Дейла Эмери `Writing Maintainable Automated Acceptance Tests`__.
+  - Запись в блоге Андреаса Эбберт-Кароум `How to Structure a Scalable And Maintainable Acceptance Test Suite`__.
 
 __ http://www.slideshare.net/pekkaklarck/robot-framework-dos-and-donts
-__ http://cwd.dhemery.com/2009/11/wmaat
+__ http://dhemery.com/pdf/writing_maintainable_automated_acceptance_tests.pdf
 __ http://blog.codecentric.de/en/2010/07/how-to-structure-a-scalable-and-maintainable-acceptance-test-suite
 
 
-Naming
-======
+Именование
+==========
 
-Test suite names
-----------------
+Названия наборов тестов
+-----------------------
 
-- Suite names should be as descriptive as possible.
+- Названия наборов тестов должны быть описательными настолько, насколько это возможно.
 
-- Names are created automatically from file or directory names:
+- Имена создаются автоматически на основе названий файлов или каталогов:
 
-  - Extensions are stripped.
-  - Underscores are converted to spaces.
-  - If name is all lower case, words are capitalized.
+  - Расширения файлов отбрасываются.
+  - Символы подчеркивания преобразуются в пробелы.
+  - Если имя в нижнем регистре, то слова пишутся заглавными буквами.
 
-- Names can be relatively long, but overly long names are not convenient for
-  the file system.
+- Имя может быть длинным, но слишком длинные имена могут не походит под ограничения файловой системы.
 
-- The name of the top level suite can be overridden from the command line
-  using the `--name` option if needed.
+- В случае необходимости имя набора тестов может быть перезаписано из командной строки с использованием опции `--name`.
 
-Examples:
+Примеры:
 
 - `login_tests.robot` -> `Login Tests`
 - `IP_v4_and_v6` -> `IP v4 and v6`
