@@ -12,12 +12,12 @@
 Введение
 ============
 
-- Это руководстов дает обобщенные советы по написания наборо тестов с использованием Robot
+- Это руководство дает обобщенные советы по написания наборо тестов с использованием Robot
   Framework.
 
   - Детальное описание взаимодействия с тестируемыми системами выходит за рамки настоящего руководства.
 
-- Важнейшим принципом написания тестов является его максимальная понятность для людей знакомых с предметной областью.
+- Важнейшим принципом написания тестов является его максимальная понятность для людей, знакомых с предметной областью.
 
   - Обычно такие тесты еще и легко поддерживать.
 
@@ -32,13 +32,13 @@ __ http://dhemery.com/pdf/writing_maintainable_automated_acceptance_tests.pdf
 __ http://blog.codecentric.de/en/2010/07/how-to-structure-a-scalable-and-maintainable-acceptance-test-suite
 
 
-Именование
+Выбор имен
 ==========
 
 Названия наборов тестов
 -----------------------
 
-- Названия наборов тестов должны быть описательными настолько, насколько это возможно.
+- Названия наборов тестов должны полно описывать содержание.
 
 - Имена создаются автоматически на основе названий файлов или каталогов:
 
@@ -56,69 +56,62 @@ __ http://blog.codecentric.de/en/2010/07/how-to-structure-a-scalable-and-maintai
 - `IP_v4_and_v6` -> `IP v4 and v6`
 
 
-Test case names
----------------
+Названия тестовых сценариев
+----------------------------
 
-- Test names should be descriptive like the suite names.
+- Имена тестов должны такими же описательными, как и названия наборов тестов.
 
-- If a suite contains many similar tests and is well named,
-  test names can be shorter.
+- Если набор тестов содержить много похожих тестов и имеет подходяещее название, то название входящих в него тестов можно сделать короче.
 
-- Name is exactly the same as you specified in the test case file without any
-  conversion.
+- Имя теста отображается в точности так, как вы его зададите в файле тестового сценария.
 
-For example, if we have tests related to invalid login in a file
-`invalid_login.robot`, these would be OK test case names:
+Например, если у вас есть тесты, связанные с проверкой невалидного входа в систему в файле `невалидный_вход.robot`, то это будут подходящие имена:
 
 .. code:: robotframework
 
   *** Test Cases ***
-  Empty Password
-  Empty Username
-  Empty Username And Password
-  Invalid Username
-  Invalid Password
-  Invalid Username And Password
+  Пустой пароль
+  Пустое имя пользователя
+  Пустой пароль и имя пользователя
+  Неверное имя пользователя
+  Неверный пароль
+  Неверный пароль и имя пользователя
 
-These names would be somewhat long:
+А эти имена будут слегка длинными:
 
 .. code:: robotframework
 
   *** Test Cases ***
-  Login With Empty Password Should Fail
-  Login With Empty Username Should Fail
-  Login With Empty Username And Password Should Fail
-  Login With Invalid Username Should Fail
-  Login With Invalid Password Should Fail
-  Login With Invalid Username And Invalid Password Should Fail
+  Вход с пустым поролем не должен быть успешным
+  Вход с пустым именем пользователя не должен быть успешным
+  Вход с пустым именем пользователя и паролем не должен быть успешным
+  Вход с неверным поролем не должен быть успешным
+  Вход с неверным именем пользователя не должен быть успешным
+  Вход с невернымм именем пользователя и паролем не должен быть успешным
 
 
-Keyword names
--------------
+Названия ключевых слов
+----------------------
 
-- Keyword names should be descriptive and clear.
+- Название ключевого слова должно описывать выполняемое действие и быть ясными.
 
-- Should explain what the keyword does, not how it does its task(s).
+- Навзание должно описывать, **что** делает это ключевое слов, а не то, **как** оно это делает.
 
-- Very different abstraction levels (e.g. `Input Text` or `Administrator
-  logs into system`).
+- Может иметь разные уровни абстракции (например, `Ввод текста` или `Администратор входит в систему`).
 
-- There is no clear guideline on whether a keyword should be fully title cased or have
-  only the first letter be capitalized.
+- Нет четкого правил, которое бы определяло должны ли быть заглавными первые буквы во всех словах (title casing) или же заглавной должна быть только первая буква первого слова.
 
-  - Title casing is often used when the keyword name is short (e.g. `Input Text`).
-  - Capitalizing just the first letter typically works better with keywords
-    that are like sentences (e.g. `Administrator logs into system`). These
-    type of keywords are often higher level.
+  - Title casing обычно используется, если название короткое (например. `Ввод текста`).
+  - Заглавная буква в первом слове обычно работает лучше, если название похоже на законченное предложение (например, `Администратор входит в систему`). Обычно это ключевые слова более высокого уровня.
 
-Good:
+Правильно:
 
 .. code:: robotframework
 
   *** Keywords ***
   Login With Valid Credentials
 
-Bad:
+Не правильно:
 
 .. code:: robotframework
 
@@ -126,53 +119,50 @@ Bad:
   Input Valid Username And Valid Password And Click Login Button
 
 
-Naming setup and teardown
--------------------------
+Выбор имен для процедур подготовки и завершения тестов
+----------------------------------------------------------------
 
-- Try to use name that describes what is done.
+- Старайтесь использовать имена, которые описывают то, что делает это ключевое слово.
 
-  - Possibly use an existing keyword.
+  - По возможности, используйте уже существующие ключевый слова.
 
-- More abstract names are acceptable if a setup or teardown contains unrelated steps.
+- Более обобщенные названия приемлемы, если эти процедуры содержать несвязанные шаги.
 
-  - Listing steps in name is duplication and a maintenance problem
-    (e.g. `Login to system, add user, activate alarms and check balance`).
+  - Перечисление шагов в названии приводит к дублированию и проблемам с поддержкой
+    (например, `Войти в систему, добавить пользователя, активировать оповещение и проверить баланс`).
 
-  - Often better to use something generic (e.g. `Initialize system`).
+  - Часто бывает, что луше использовать более общее описание (например,  `Инициализировать систему`).
 
-- BuiltIn keyword `Run Keywords`__ can work well if keywords implementing lower
-  level steps already exist.
+- Подходящим может быть встроенное ключевое слово `Run Keywords`__ , если в процедуре используются готовые ключевые слова более низкого уровня.
 
-  - Not reusable so best used when the setup or teardown scenario is
-    needed only once.
+  - Этот способ не подходит для повторного использования, поэтому лучше использовать его, если эта процедура будет использоваться только в одном тесте.
 
-- Everyone working with these tests should always understand what a setup or
-  teardown does.
+- Всякий, кто работет с этим тестом, должен понимать, что эти процедуры делают.
 
-Good:
+Правильно:
 
 .. code:: robotframework
 
   *** Settings ***
-  Suite Setup     Initialize System
+  Suite Setup     Инициализировать систему
 
-Good (if only used once):
+Правльно (если используется только в одном месте):
 
 .. code:: robotframework
 
   *** Settings ***
   Suite Setup     Run Keywords
-  ...             Login To System    AND
-  ...             Add User           AND
-  ...             Activate Alarms    AND
-  ...             Check Balance
+  ...             Войти в систему    AND
+  ...             Добавить пользователя   AND
+  ...             Активировать оповещение    AND
+  ...             Проверить баланс
 
-Bad:
+Не правильно:
 
 .. code:: robotframework
 
     *** Settings ***
-    Suite Setup     Login To System, Add User, Activate Alarms And Check Balance
+    Suite Setup     Войти в систему, добавить пользователя, активировать оповещение и проверить баланс
 
 __ http://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Run%20Keywords
 
