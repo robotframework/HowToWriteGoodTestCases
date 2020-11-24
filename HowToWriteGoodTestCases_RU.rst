@@ -111,7 +111,7 @@ __ http://blog.codecentric.de/en/2010/07/how-to-structure-a-scalable-and-maintai
   *** Keywords ***
   Login With Valid Credentials
 
-Не правильно:
+Неправильно:
 
 .. code:: robotframework
 
@@ -131,13 +131,13 @@ __ http://blog.codecentric.de/en/2010/07/how-to-structure-a-scalable-and-maintai
   - Перечисление шагов в названии приводит к дублированию и проблемам с поддержкой
     (например, `Войти в систему, добавить пользователя, активировать оповещение и проверить баланс`).
 
-  - Часто бывает, что луше использовать более общее описание (например,  `Инициализировать систему`).
+  - Часто бывает, что лучше использовать более общее описание (например,  `Инициализировать систему`).
 
-- Подходящим может быть встроенное ключевое слово `Run Keywords`__ , если в процедуре используются готовые ключевые слова более низкого уровня.
+- Подходящим может быть использования встроенного ключевога слова `Run Keywords`__ , если в процедуре используются готовые ключевые слова более низкого уровня.
 
-  - Этот способ не подходит для повторного использования, поэтому лучше использовать его, если эта процедура будет использоваться только в одном тесте.
+  - Этот способ не подходит для повторного использования, поэтому лучше использовать его, если эта процедура будет использоваться только в одном месте.
 
-- Всякий, кто работет с этим тестом, должен понимать, что эти процедуры делают.
+- Всякий, кто работет с тестами, должен из названия понимать, что эти процедуры делают.
 
 Правильно:
 
@@ -146,7 +146,7 @@ __ http://blog.codecentric.de/en/2010/07/how-to-structure-a-scalable-and-maintai
   *** Settings ***
   Suite Setup     Инициализировать систему
 
-Правльно (если используется только в одном месте):
+Правильно (если используется только в одном месте):
 
 .. code:: robotframework
 
@@ -157,7 +157,7 @@ __ http://blog.codecentric.de/en/2010/07/how-to-structure-a-scalable-and-maintai
   ...             Активировать оповещение    AND
   ...             Проверить баланс
 
-Не правильно:
+Неправильно:
 
 .. code:: robotframework
 
@@ -167,55 +167,53 @@ __ http://blog.codecentric.de/en/2010/07/how-to-structure-a-scalable-and-maintai
 __ http://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Run%20Keywords
 
 
-Documentation
+Документация
 =============
 
-Test suite documentation
-------------------------
+Документация наборов тестов
+---------------------------
 
-- Often a good idea to add overall documentation to test case files.
+- Часто бывает нелишним добавить к тестовым сценариям документацию по ним.
 
-- Should contain background information, why tests are created, notes about
-  execution environment, etc.
+- Документация должна содержать информцию о назначении тестов, среде выполнения и тому подобном.
 
-- Do not just repeat test suite name.
+- Не должнв повторять дословно названия набора тестов.
 
-  - Better to have no documentation if it is not really needed.
+  - Лучше вовсе не иметь документации, если она не нужна на самом деле.
 
-- Do not include too much details about test cases.
+- Не должна включать слишком много деталей тестовых сценариев.
 
-  - Tests should be clear enough to understand alone.
-  - Duplicate information is waste and maintenance problem.
+  - Тесты должны быть достаточно понятными для понимания сами по себе.
+  - Дублирующая информация это мусор и дополнительные проблемы с поддержкой тестов.
 
-- Documentation can contain links to more information.
+- Документация может содержать ссылки на дополнительную информацию.
 
-- Consider using test suite metadata if you need to document information
-  represented as name-value pairs (e.g. `Version: 1.0` or `OS: Linux`).
+- Рассмотрите возможностьи использования метаданных тестовых наборов, если вам требуется документировать иформацию предоставленную в виде пар ключ-значение (например `Версия: 1.0` или `OS: Linux`).
 
-- Documentation and metadata of the top level suite can be set from the
-  command line using `--doc` and `--metadata` options, respectively.
+- Документация и метаданные для наборов тестов верхнего уровня может быть установлена с помощью опций командной строки `--doc` и `--metadata` соответсвенно.
 
-Good:
+Правильно:
 
 .. code:: robotframework
 
   *** Settings ***
-  Documentation    Tests to verify that account withdrawals succeed and
-  ...              fail correctly depending from users account balance
-  ...              and account type dependent rules.
-  ...              See http://internal.example.com/docs/abs.pdf
-  Metadata         Version    0.1
+  Documentation    Тест проверки списания денег со счета пользователя.
+  ...              Успех и отказ при проведении операции должен проходить
+  ...              корректно, в зависимости от состояния баланса и правил
+  ...              принятых для этого типа счета.
+  ...              Подробнее смотри: http://internal.example.com/docs/abs.pdf
+  Metadata         Версия    0.1
 
-Bad (especially if suite is named well like `account_withdrawal.robot`):
+Неправильно (особенно если набор тестов уже имеет подходящее название вроде `account_withdrawal.robot`):
 
 .. code:: robotframework
 
   *** Settings ***
-  Documentation    Tests Account Withdrawal.
+  Documentation    Тест списания со счета.
 
 
-Test case documentation
------------------------
+Документация наборов тестов
+---------------------------
 
 - Test normally does not need documentation.
 
