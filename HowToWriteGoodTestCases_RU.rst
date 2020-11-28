@@ -177,7 +177,7 @@ __ http://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Run%20
 
 - Документация должна содержать информцию о назначении тестов, среде выполнения и тому подобном.
 
-- Не должнв повторять дословно названия набора тестов.
+- Не должна повторять дословно названия набора тестов.
 
   - Лучше вовсе не иметь документации, если она не нужна на самом деле.
 
@@ -340,7 +340,7 @@ Workflow тестирование
 
   - Никаких конструкций типа циклов или условий.
   - Используйте назначение переменных с осторожностью.
-  - Тестовый сцераий не должен выглядить как скрипт!
+  - Тестовый сценарий не должен выглядить как скрипт!
 
 - Максиму 10 шагов, а лучше меньше.
 
@@ -367,57 +367,53 @@ Workflow тестирование
       Then открылась главная страница
 
 Смотрите `web demo project <https://github.com/robotframework/WebDemo/>`_
-что увидеть испольняемую версию этих примеров.
+что увидеть исполняемую версию этих примеров.
 
 Тестирование на основе данных
 -----------------------------
 
-- One high-level keyword per test.
+- Одно ключевое слово высокого уровня на тест.
 
-  - Different arguments create different tests.
-  - One test can run the same keyword multiple times to validate multiple
-    related variations
+  - Разные аргументы формируют разные тесты.
+  - Один тест может запускать одно и тоже ключевое слово несколько раз, чтобы проверить несколько связанных вариантов
 
-- If the keyword is implemented as a user keyword, it typically contains
-  a similar workflow as `workflow tests`_.
+- Если это ключевое слово реализовано как пользовательское ключевое слово, то оно обычно содержит последовательность операций, как и `Workflow тестирование`_ .
 
-  - Unless needed elsewhere, it is a good idea to create it in the same file
-    as tests using it.
+  - Пока не потребуется иное, лучше описывать его в том же файле, что и тест.
 
-- Recommended to use the *test template* functionality.
+- Рекомендуется использовать для этого *шаблоны тестов*.
 
-  - No need to repeat the keyword multiple times.
-  - Easier to test multiple variations in one test.
+  - Тогда вам не потребуется повторят ключевое слово несколько раз в одном тесте.
+  - Так легче в одном тест прогнать сразу несколько вариаций.
 
-- Possible, and recommended, to name column headings
+- Вы можете, и это рекомендуется, давать названия колонкам с данными.
 
-- If a really big number of tests is needed, consider generating them based
-  on an external model.
+- Если требуется действительно большое количество тестов, то рекомендуется генерировать их на основе внешних моделей.
 
-Example:
+Пример:
 
 .. code:: robotframework
 
   *** Settings ***
-  Test Template         Login with invalid credentials should fail
+  Test Template         Вход с неверными данными пользователя должен закончится сообщением об ошибке
 
   *** Test Cases ***    USERNAME             PASSWORD
-  Invalid Username      invalid              ${VALID PASSWORD}
-  Invalid Password      ${VALID USERNAME}    invalid
-  Invalid Both          invalid              invalid
-  Empty Username        ${EMPTY}             ${VALID PASSWORD}
-  Empty Password        ${VALID USERNAME}    ${EMPTY}
-  Empty Both            ${EMPTY}             ${EMPTY}
+  Неверное имя          invalid              ${VALID PASSWORD}
+  Неверный пароль       ${VALID USERNAME}    invalid
+  Оба неверные          invalid              invalid
+  Пустое имя            ${EMPTY}             ${VALID PASSWORD}
+  Пустой пароль         ${VALID USERNAME}    ${EMPTY}
+  Оба пустые            ${EMPTY}             ${EMPTY}
 
   *** Keywords ***
-  Login with invalid credentials should fail
+  Вход с неверными данными пользователя должен закончится сообщением об ошибке
       [Arguments]    ${username}    ${password}
-      Input Username    ${username}
-      Input Password    ${password}
-      Submit Credentials
-      Error Page Should Be Open
+      Ввести имя пользователя    ${username}
+      Ввести пароль    ${password}
+      Отправить учетные данные
+      Открылась страница с сообщением об ошибке.
 
-The `web demo project`_ contains an executable version of this example too.
+Упомянутый `web demo project`_ содержит исполняемую версию и этого примера.
 
 
 User keywords
