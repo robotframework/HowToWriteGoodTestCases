@@ -12,7 +12,7 @@
 Введение
 ============
 
-- Это руководство дает обобщенные советы по написания наборо тестов с использованием Robot
+- Это руководство дает обобщенные советы по написания наборов тестов с использованием Robot
   Framework.
 
   - Детальное описание взаимодействия с тестируемыми системами выходит за рамки настоящего руководства.
@@ -44,7 +44,7 @@ __ http://blog.codecentric.de/en/2010/07/how-to-structure-a-scalable-and-maintai
 
   - Расширения файлов отбрасываются.
   - Символы подчеркивания преобразуются в пробелы.
-  - Если имя в нижнем регистре, то слова пишутся заглавными буквами.
+  - Если имя в нижнем регистре, то первые буквы в словах отображаются заглавными.
 
 - Имя может быть длинным, но слишком длинные имена могут не походит под ограничения файловой системы.
 
@@ -212,43 +212,41 @@ __ http://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Run%20
   Documentation    Тест списания со счета.
 
 
-Документация наборов тестов
----------------------------
+Документация тестовых сценариев
+-------------------------------
 
-- Test normally does not need documentation.
+- Обычно тестам не требуется документация.
 
-  - Name and possible documentation of the parent suite and test's own name
-    should give enough background information.
-  - Test case structure should be clear enough without documentation or other
-    comments.
+  - Название и документация родительского набора тестов должна давать достатчно общей инфрмации.
+  - Структура тестовго сценария долна быть достаточно ясной и без дополнительной документации или других комментариев.
 
-- Tags are generally more flexible and provide more functionality (statistics,
-  include/exclude, etc.) than documentation.
+- Использование тэгов обеспечивает большую гибкость и функциональность (ведение статистики, включение/выключение при запуске и т. д.), чем документация.
 
-- Sometimes test documentation is useful. No need to be afraid to use it.
+- Иногда документация к сценарим бывает полезна, не бойтесь использовать ее.
 
-Good:
+Правильно:
 
 .. code:: robotframework
 
   *** Test Cases ***
-  Valid Login
-      [Tags]    Iteration-3    Smoke
-      Open Login Page
-      Input Username    ${VALID USERNAME}
-      Input Password    ${VALID PASSWORD}
-      Submit Credentials
-      Welcome Page Should Be Open
+  Валидный вход
+      [Tags]    Итерация-3    Базовые
+      Открыть страницу входа
+      Ввести имя пользователя   ${VALID USERNAME}
+      Ввести пароль    ${VALID PASSWORD}
+      Отправить учетные данные
+      Должна быть открыта стартовая страница
 
-Bad:
+Неправильно:
 
 .. code:: robotframework
 
   *** Test Cases ***
-  Valid Login
-      [Documentation]    Opens a browser to login url, inputs valid username
-      ...                and password and checks that the welcome page is open.
-      ...                This is a smoke test. Created in iteration 3.
+  Валидный вход
+      [Documentation]    Открыть в браузере страницу входа, ввести валидные
+      ...                имя пользователя и пароль. Убедиться что открылась
+      ...                стартовая страница.
+      ...                Это базовый тест. Создан во время 3-ей итерации.
       Open Browser    ${URL}    ${BROWSER}
       Input Text    field1    ${UN11}
       Input Text    field2    ${PW11}
@@ -256,126 +254,123 @@ Bad:
       Title Should Be    Welcome Page
 
 
-User keyword documentation
---------------------------
+Документация к пользовательским ключевым словам
+-----------------------------------------------
 
-- Not needed if keyword is relatively simple.
+- Не требуется, если ключевые слова отностиельно простые.
 
-  - Good keyword, argument names and clear structure should be enough.
+  - Подходящего названия и имен аргументов, а также ясной структуры — должно быть вполне достаточно.
 
-- Important usage is documenting arguments and return values.
+- Важным может быть документирование аргументов и возвращяемых значений.
 
-- Shown in resource file documentation generated with Libdoc__ and editors
-  such as RIDE__ can show it in keyword completion and elsewhere.
+- Документация отображается в файлах ресурсов, генерируемых с помощью Libdoc__ , а редакторы такие как RIDE__ могут отображать ее при автодополнении имени ключевого слова и в других местах.
 
 __ http://robotframework.org/robotframework/#built-in-tools
 __ https://github.com/robotframework/RIDE
 
 
-Test suite structure
-====================
+Структура наборов тестов
+========================
 
-- Tests in a suite should be related to each other.
+- Тесты в наборе должны быть связаны между собой.
 
-  - Common setup and/or teardown is often a good indicator.
+  - Хороший признак этого — общие процедуры запуска/завершения тестов.
 
-- Should not have too many tests (max 10) in one file unless they are
-  `data-driven tests`_.
+- Набор не должен содержать слишком много тестов (максимум 10). Исключением может быть "`Тестирование на основе данных`_".
 
-- Tests should be independent. Initialization using setup/teardown.
+- Тесты должны быть независимыми. Инициализироваться через общие процедуры запуска/завершения тестов.
 
-- Sometimes dependencies between tests cannot be avoided.
+- Иногда зависмости тестов друг от друга невозможжно избежать.
 
-  - For example, it can take too much time to initialize all tests separately.
-  - Never have long chains of dependent tests.
-  - Consider verifying the status of the previous test using the built-in
-    `${PREV TEST STATUS}` variable.
+  - Например, им потребуется слишком много времени для инициализации по отдельности.
+  - Не стоит делать длинных цепочек из зависимых тестов.
+  - Для проверки статуса предыдущего тесто может пригодится переменная `${PREV TEST STATUS}`.
 
 
-Test case structure
-===================
+Структура тестовых сценариев
+============================
 
-- Test case should be easy to understand.
+- Тестовые сценарии должны быть простыми для понимания.
 
-- One test case should be testing one thing.
+- Один тест должен проверять одну вешь.
 
-  - *Things* can be small (part of a single feature) or large (end-to-end).
+  - Эта *вещь* может быть маленькой (часть какой-либо фукции) или большой (результат процесса).
 
-- Select suitable abstraction level.
+- Выбирайте подходящий уровень абстракции.
 
-  - Use abstraction level consistently (single level of abstraction principle).
-  - Do not include unnecessary details on the test case level.
+  - Используйте уровень абстракции единообразно (принцип одного уровня асбтракции).
+  - Не добавляте ненужные детали на уровень тестового сценария.
 
-- Two kinds of test cases:
+- Существует два типа тестовых сценариев:
 
-  - `Workflow tests`_
-  - `Data-driven tests`_
+  - `Workflow тестирование`_
+  - `Тестирование на основе данных`_
 
 
-Workflow tests
---------------
+Workflow тестирование
+---------------------
 
-- Generally have these phases:
+- Обычно оно включает три фазы:
 
-  - Precondition (optional, often in setup)
-  - Action (do something to the system)
-  - Verification (validate results, mandatory)
-  - Cleanup (optional, always in teardown to make sure it is executed)
+  - Предусловие (не обязательно, чаще в процедуре подготовки тестов)
+  - Действие (делает что-то с системой)
+  - Проверка (валидация результата, обязательная часть)
+  - Уборка (не обязательно, всегда делается в завершающей процедуре, чтобы быть уверенным, что действие будет выполнено)
 
-- Keywords describe what a test does.
+- Ключевые слова описывают, что делает тест.
 
-  - Use clear keyword names and suitable abstraction level.
-  - Should contain enough information to run manually.
-  - Should never need documentation or commenting to explain what the test does.
+  - Используйте "говорящие" названия ключевых слов и подходящий уровень абстракции.
+  - Они должны содержать достаточно информации, чтобы выполнить тест вручную.
+  - Не должны требовать дополнительной документации или комментариев для того чтобы обьяснить, что этот тест делает.
 
-- Different tests can have different abstraction levels.
+- Разные тесты могут иметь разный уровень абстракции.
 
-  - Tests for a detailed functionality are more precise.
-  - End-to-end tests can be on very high level.
-  - One test should use only one abstraction level
+  - Тесты для отдельных частей функциональности будут более детальными.
+  - End-to-end тесты могут имет самый высокий уровень абстракции.
+  - Один ест дост должен использовать только один уровень абстракции.
 
-- Different styles:
+- Разные стили:
 
-  - More technical tests for lower level details and integration tests.
-  - "Executable specifications" act as requirements.
-  - Use domain language.
-  - Everyone (including customer and/or product owner) should always understand.
+  - Более "технические" для тестирования низкоуровневых деталей и интеграции.
+  - "Испольняемые спецификации" действующие как требования.
+  - Используйте язык предметной области.
+  - Все (включая клиента и/или владельца продукта) всегда должны понимать о чем идет речь в тесте.
 
-- No complex logic on the test case level.
+- Никакой сложной логики на уровне тестовых сыенариев.
 
-  - No for loops or if/else constructs.
-  - Use variable assignments with care.
-  - Test cases should not look like scripts!
+  - Никаких конструкций типа циклов или условий.
+  - Используйте назначение переменных с осторожностью.
+  - Тестовый сцераий не должен выглядить как скрипт!
 
-- Max 10 steps, preferably less.
+- Максиму 10 шагов, а лучше меньше.
 
-Example using "normal" keyword-driven style:
+Пример использования "нормального" стиля ключевых слов:
 
 .. code:: robotframework
 
   *** Test Cases ***
-  Valid Login
-      Open Browser To Login Page
-      Input Username    demo
-      Input Password    mode
-      Submit Credentials
-      Welcome Page Should Be Open
+  Успешный вход в систему
+      Открыть страницу входа
+      Ввести имя пользователя    demo
+      Ввести пароль    mode
+      Отправить учетные данные
+      Открылась главная страница
 
-Example using higher level "gherkin" style:
+Пример с использванием высокоуровневого стиля "gherkin":
 
 .. code:: robotframework
 
   *** Test Cases ***
-  Valid Login
-      Given browser is opened to login page
-      When user "demo" logs in with password "mode"
-      Then welcome page should be open
+  Успешный вход в систему
+      Given браузер открыл страницу входа
+      When пользователь "demo" зашел с паролем "mode"
+      Then открылась главная страница
 
-See the `web demo project <https://github.com/robotframework/WebDemo/>`_
-for executable versions of the above examples.
+Смотрите `web demo project <https://github.com/robotframework/WebDemo/>`_
+что увидеть испольняемую версию этих примеров.
 
-Data-driven tests
------------------
+Тестирование на основе данных
+-----------------------------
 
 - One high-level keyword per test.
 
