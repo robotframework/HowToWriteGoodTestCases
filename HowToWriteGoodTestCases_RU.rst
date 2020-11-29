@@ -413,151 +413,148 @@ Workflow тестирование
       Отправить учетные данные
       Открылась страница с сообщением об ошибке.
 
-Упомянутый `web demo project`_ содержит исполняемую версию и этого примера.
+Вышеупомянутый `web demo project`_ содержит исполняемую версию и этого примера.
 
 
 User keywords
 =============
 
-- Should be easy to understand.
+- Должны быть легкими для понимания.
 
-  - Same rules as with workflow tests.
+  - Правил такие же как для  workflow тестов.
 
-- Different abstraction levels.
+- Разыне уровни абстракции.
 
-- Can contain some programming logic (for loops, if/else).
+- Могуть содержать прогрммную логику(циклы, условия).
 
-  - Especially on lower level keywords.
-  - Complex logic in libraries rather than in user keywords.
-
-
-Variables
-=========
-
-- Encapsulate long and/or complicated values.
-
-- Pass information from them command line using the `--variable` option.
-
-- Pass information between keywords.
+  - Особенно в низкоуровневых ключевых словах.
+  - Сложную логику лучше размещать в библиотеках, а не в пользовательских ключевых словах.
 
 
-Variable naming
----------------
+Переменные
+==========
 
-- Clear but not too long names.
+- Прячут в себе длинные и/или сложные значения.
 
-- Can use comments in variable table to document them more.
+- Позволяют передать данные из командной строки, используя опцию `--variable`.
 
-- Use case consistently:
+- Позволяют передат данные от одного ключевого слова другому.
 
-  - Lower case with local variables only available inside a certain scope.
-  - Upper case with others (global, suite or test level).
-  - Both space and underscore can be used as a word separator.
 
-- Recommended to also list variables that are set dynamically in the variable
-  table.
+Наименование переменных
+-----------------------
 
-  - Set typically using BuiltIn keyword `Set Suite Variable`__.
-  - The initial value should explain where/how the real value is set.
+- Понятные, но не слишком длинные имена.
 
-Example:
+- Можно использовать комментарии в таблицах переменных, для более подробного описания.
+
+- Используйте регистр букв единообразно:
+
+  - Нижний регистр для локальных переменных доступных в ограниченной области.
+  - Вержний регистр для остальных (глобальных, или уровня тестового набора).
+  - В качества разделителя можно использовать, и пробелы, и символы подчеркивания.
+
+- Рекомендуется перечислять в таблице переменных и те переменные, значение которых опредеяется динамически
+
+  - Установка значения переменной обычно делается с помощьй встроенного ключевого слова `Set Suite Variable`__.
+  - Стартовое значение должно объяснять, где и как устанавливается реальное значение.
+
+Приверр:
 
 .. code:: robotframework
 
   *** Settings ***
-  Suite Setup       Set Active User
+  Suite Setup       Задать активного пользователя
 
   *** Variables ***
-  # Default system address. Override when tested agains other instances.
+  # Адрес системы по умолчанию. Перезаписать при использовани на другом инстансе.
   ${SERVER URL}     http://sre-12.example.com/
-  ${USER}           Actual value set dynamically at suite setup
+  ${USER}           Актуализировать набор значение при подготовке тестовго набора
 
   *** Keywords ***
-  Set Active User
-      ${USER} =    Get Current User    ${SERVER URL}
+  Задать активного пользователя
+      ${USER} =    Получить текущего пользователя    ${SERVER URL}
       Set Suite Variable    ${USER}
 
 __ http://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Set%20Suite%20Variable
 
 
-Passing and returning values
-----------------------------
+Как получить и вернуть значение
+---------------------------
 
-- Common approach is to return values from keywords, assign them to variables
-  and then pass them as arguments to other keywords.
+- Обычный подход заключается в том чтобы вернуть значение из ключевого слова, присвоить его переменной и предать для использования другими ключевыми словами
 
-  - Clear and easy to follow approach.
-  - Allows creating independent keywords and facilitates re-use.
-  - Looks like programming and thus not so good on the test case level.
+  - Понятный и простой в использовании подход.
+  - Позволяет создавать независимые ключевые слова и облегачет их повторное использование.
+  - Выглядит как программирование и поэтому не очень хорош для использования на уровне тестовых наборов.
 
-- Alternative approach is storing information in a library or using the BuiltIn
-  `Set Test Variable`__ keyword.
+- Алтернативным является подход с сохранением данных в бибилотеке или использование встроенного ключевого слова
+  `Set Test Variable`__.
 
-  - Avoid programming style on the test case level.
-  - Can be more complex to follow and make reusing keywords harder.
+  - Позвоялет избежать программного стиля на уровне тестовых наборов.
+  - Может быть более сложным в реализации и может делать переиспользование ключевых слов более сложным.
 
 __ http://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Set%20Test%20Variable
 
-Good:
+Правильно:
 
 .. code:: robotframework
 
   *** Test Cases ***
-  Withdraw From Account
-      Withdraw From Account    $50
-      Withdraw Should Have Succeeded
+  Списание со счета
+      Списать со счета    $50
+      Списание пршло успешно
 
   *** Keywords ***
-  Withdraw From Account
+  Списать со счета
       [Arguments]    ${amount}
-      ${STATUS} =    Withdraw From User Account    ${USER}    ${amount}
+      ${STATUS} =    Списать со счета пользователя    ${USER}    ${amount}
       Set Test Variable    ${STATUS}
 
-  Withdraw Should Have Succeeded
+  Списание пршоло успешно
       Should Be Equal    ${STATUS}   SUCCESS
 
-Not so good:
+Приемлимо, но похуже:
 
 .. code:: robotframework
 
   *** Test Cases ***
-  Withdraw From Account
-      ${status} =    Withdraw From Account    $50
-      Withdraw Should Have Succeeded    ${status}
+  Списание со счета
+      ${status} =    Списать со счета    $50
+      Списание прошло успешно    ${status}
 
   *** Keywords ***
-  Withdraw From Account
+  Списать со счета
       [Arguments]    ${amount}
-      ${status} =    Withdraw From User Account    ${USER}    ${amount}
+      ${status} =    Списать со счета пользователя    ${USER}    ${amount}
       [Return]    ${status}
 
-  Withdraw Should Have Succeeded
+  Списание прошло успешно
       [Arguments]    ${status}
       Should Be Equal     ${status}    SUCCESS
 
 
-Avoid sleeping
-==============
+Избегайте безусловных ожиданий
+==============================
 
-- Sleeping is a very fragile way to synchronize tests.
+- Безусловное ожидание это очень ненадежный способ синхронизации тестов.
 
-- Safety margins cause too long sleeps on average.
+- Заложенное в них время время чаще всего оказывается избыточным.
 
-- Instead of sleeps, use keyword that polls has a certain action occurred.
+- Вместо безусловных ожиданий используйте опрос ожидаемого действия.
 
-  - Keyword names often starts with `Wait ...`.
-  - Should have a maximum time to wait.
-  - Possible to wrap other keywords inside the BuiltIn keyword
-    `Wait Until Keyword Succeeds`__.
+  - Такие ключевые слова обычно начинаются со слова `Wait ...`.
+  - Должны включить в число параметров время максимального ожидания.
+  - Можно также "обертывать" другие ключевые слова с помощью встроенного ключевого слова `Wait Until Keyword Succeeds`__.
 
-- Sometimes sleeping is the easiest solution.
+- Иногда безусловное ожидание это самое легкое решение.
 
-  - Always use with care.
-  - Never use in user keywords that are used often by tests or other keywords.
+  - Всегда используйте его с осторожностью.
+  - Никогда не используйте его в частоиспользуемых ключевых словах.
 
-- Can be useful in debugging to stop execution.
+- Может быть полезно при отладке, для принудителной остановки исполнения теста.
 
-  - `Dialogs library`__ often works better.
+  - Но `Dialogs library`__ обычно подходит для этого лучше.
 
 __ http://robotframework.org/robotframework/latest/libraries/BuiltIn.html#Wait%20Until%20Keyword%20Succeeds
 __ http://robotframework.org/robotframework/latest/libraries/Dialogs.html
