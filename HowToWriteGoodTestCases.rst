@@ -495,7 +495,7 @@ Example:
   Suite Setup       Set Active User
 
   *** Variables ***
-  # Default system address. Override when tested agains other instances.
+  # Default system address. Override when tested against other instances.
   ${SERVER URL}     http://sre-12.example.com/
   ${USER}           Actual value set dynamically at suite setup
 
