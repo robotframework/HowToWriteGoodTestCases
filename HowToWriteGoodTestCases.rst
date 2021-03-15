@@ -30,10 +30,14 @@ Introduction
   - `Writing Maintainable Automated Acceptance Tests`__ article by Dale Emery.
   - `How to Structure a Scalable And Maintainable Acceptance Test Suite`__
     blog post by Andreas Ebbert-Karroum.
+  - `Robot Framework Lint`__
+    is a linter which uses many of the high-level guidelines.
 
 __ http://www.slideshare.net/pekkaklarck/robot-framework-dos-and-donts
 __ http://cwd.dhemery.com/2009/11/wmaat
 __ http://blog.codecentric.de/en/2010/07/how-to-structure-a-scalable-and-maintainable-acceptance-test-suite
+__ https://github.com/boakley/robotframework-lint
+
 
 
 Naming
